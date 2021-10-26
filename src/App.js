@@ -7,6 +7,7 @@ import {
 import Dashboard from "./views/Dashboard";
 import ViewOne from "./views/ViewOne";
 
+
 function App() {
   return (
     <div className="App">

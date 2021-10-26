@@ -10,10 +10,14 @@ const ViewOne = (props) => {
     const [loaded, setLoaded] = useState(false);
     const [query, setQuery] = useState("");
     const { id } = useParams();
+    const [onePlantLoaded, setOnePlantLoaded] = useState(false);
 
     useEffect(() => {
         axios.get('http://localhost:8000/api/plant/' + id)
-            .then(res => setOnePlant(res.data))
+            .then(res => {
+                setOnePlant(res.data);
+                setOnePlantLoaded(true);
+            })
             .catch(err => console.error(err));
         
         axios.get('http://localhost:8000/api/plant')
@@ -48,20 +52,25 @@ const ViewOne = (props) => {
                 }
             </div>
             <div>
-                <h1>{onePlant.name}</h1>
-                <p>{onePlant.sciName}</p>
-                <p>{onePlant.companion.map((comp, index) => {
-                        return <div key={index}>
-                            <p>{comp}</p>
-                        </div>})}
-                </p>
-                <p>{onePlant.enemy.map((enemy, index) => {
-                        return <div key={index}>
-                            <p>{enemy}</p>
-                        </div>})}
-                </p>
-                <p>{onePlant.comments}</p>
-
+                {
+                    onePlantLoaded ?
+                    <div>
+                        <h1>{onePlant.name}</h1>
+                        <p>{onePlant.sciName}</p>
+                        <p>{onePlant.companion.map((comp, index) => {
+                                return <div key={index}>
+                                    <p>{comp}</p>
+                                </div>})}
+                        </p>
+                        <p>{onePlant.enemy.map((enemy, index) => {
+                                return <div key={index}>
+                                    <p>{enemy}</p>
+                                </div>})}
+                        </p>
+                        <p>{onePlant.comments}</p> 
+                    </div>:
+                    ""
+                }
             </div>
         </>
     )
